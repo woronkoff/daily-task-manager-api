@@ -30,6 +30,17 @@ def home():
 def get_tasks():
     return jsonify(tasks)
 
+@app.route("/tasks/<int:task_id>")
+def get_task_by_id(task_id):
+    for task in tasks:
+        if task["id"] == task_id:
+            return jsonify(task)
+    
+    return jsonify({
+        "error": "Task not found"
+    }), 404
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
