@@ -13,6 +13,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Endpoint to create new tasks using POST requests
 - JSON responses
 - Simple project structure
+- Endpoint to update existing tasks using PUT requests
 
 ## Skills Practiced
 
@@ -24,6 +25,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - HTTP POST requests
 - Git and GitHub
 - Linux server practice
+- HTTP PUT requests
 
 ## How to Run
 
@@ -96,6 +98,25 @@ Example response:
 		"id": 4,
 		"title": "Pratice POST requests"
 	}
+
+### Update Task
+
+	PUT /tasks/<task_id>
+
+Update task 1:
+
+	curl -X PUT http://127.0.0.1:5000/tasks/1 \
+	-H "Content-Type: application/json" \
+	-d '{"title": "Study Flask routes", "completed": true}'
+
+Example response:
+
+	{
+  		"completed": true,
+  		"id": 1,
+  		"title": "Study Flask routes"
+	}
+
 
 ## Notes
 
