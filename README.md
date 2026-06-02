@@ -14,6 +14,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - JSON responses
 - Simple project structure
 - Endpoint to update existing tasks using PUT requests
+- Endpoint to delete tasks using DELETE requests
 
 ## Skills Practiced
 
@@ -26,6 +27,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Git and GitHub
 - Linux server practice
 - HTTP PUT requests
+- HTTP DELETE requests
 
 ## How to Run
 
@@ -99,7 +101,7 @@ Example response:
 		"title": "Pratice POST requests"
 	}
 
-### Update Task
+## Update Task
 
 	PUT /tasks/<task_id>
 
@@ -117,6 +119,19 @@ Example response:
   		"title": "Study Flask routes"
 	}
 
+## Delete Task
+
+	DELETE /tasks/<task_id>
+
+Delete tasks by id:
+
+	curl -X DELETE http://127.0.0.1:5000/tasks/1
+
+Exampole response:
+
+	{
+  		"message": "Task deleted successfully"
+	}
 
 ## Notes
 
