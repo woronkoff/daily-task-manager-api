@@ -15,6 +15,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Simple project structure
 - Endpoint to update existing tasks using PUT requests
 - Endpoint to delete tasks using DELETE requests
+- Saves tasks in a JSON File
 
 ## Skills Practiced
 
@@ -28,6 +29,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Linux server practice
 - HTTP PUT requests
 - HTTP DELETE requests
+- Reading and writing JSON Files
 
 ## How to Run
 
@@ -136,5 +138,4 @@ Exampole response:
 ## Notes
 
 This project is still in progress. I am building it step by step to practice Python, Flask, APIs, JSON, Git and backend development.
-
-Currently the tasks are stored in a Python list. This means new tasks disappear when the server restarts. A future improvement will be savings tasks in JSON File or database.
+Tasks are currently stored in a local JSON file. A future improvement will be replacing the JSON file with a database such as SQLite.

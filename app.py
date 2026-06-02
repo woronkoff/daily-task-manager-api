@@ -1,24 +1,18 @@
+
+import json
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-tasks = [
-    {
-        "id": 1,
-        "title": "Study Python",
-        "completed": False
-    },
-    {
-        "id": 2,
-        "title": "Practice Flask",
-        "completed": False
-    },
-    {
-        "id": 3,
-        "title": "Push project to GitHub",
-        "completed": True
-    }
-]
+TASKS_FILE = "data/tasks.json"
+
+def load_tasks():
+    with open(TASKS_FILE, "r") as file:
+        return json.load(file)
+
+def save_tasks(tasks):
+    with open(TASKS_FILE, "w") as file:
+        json.dump(tasks, file, indent=4)
 
 @app.route("/")
 def home():
@@ -28,10 +22,12 @@ def home():
 
 @app.route("/tasks")
 def get_tasks():
+    tasks = load_tasks()
     return jsonify(tasks)
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
+    tasks = load_tasks()
     data = request.get_json()
 
     if not data or "title" not in data:
@@ -46,11 +42,14 @@ def create_task():
     }
 
     tasks.append(new_task)
+    save_tasks(tasks)
 
     return jsonify(new_task), 201
 
 @app.route("/tasks/<int:task_id>")
 def get_task_by_id(task_id):
+    tasks = load_tasks()
+
     for task in tasks:
         if task["id"] == task_id:
             return jsonify(task)
@@ -61,6 +60,7 @@ def get_task_by_id(task_id):
 
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
+    tasks = load_tasks()
     data = request.get_json()
 
     for task in tasks:
@@ -71,6 +71,7 @@ def update_task(task_id):
             if "completed" in data:
                 task["completed"] = data["completed"]
 
+            save_tasks(tasks)
             return jsonify(data)
     
     return jsonify({
@@ -79,9 +80,13 @@ def update_task(task_id):
 
 @app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
+    tasks = load_tasks()
+
     for task in tasks:
         if task["id"] == task_id:
             tasks.remove(task)
+            save_tasks(tasks)
+            
             return jsonify({
                 "message": "Task deleted successfully"
             })
