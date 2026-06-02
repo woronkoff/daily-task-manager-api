@@ -86,9 +86,9 @@ def delete_task(task_id):
                 "message": "Task deleted successfully"
             })
         
-        return jsonify({
-            "error": "Task not found"
-        }), 404
+    return jsonify({
+        "error": "Task not found"
+    }), 404
 
 
 if __name__ == "__main__":
