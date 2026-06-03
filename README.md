@@ -16,6 +16,8 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Endpoint to update existing tasks using PUT requests
 - Endpoint to delete tasks using DELETE requests
 - Saves tasks in a JSON File
+- Input validation for task creation and updates
+- Clear error messages for invalid requests
 
 ## Skills Practiced
 
@@ -30,6 +32,8 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - HTTP PUT requests
 - HTTP DELETE requests
 - Reading and writing JSON Files
+- Input validation
+- API error handling
 
 ## How to Run
 

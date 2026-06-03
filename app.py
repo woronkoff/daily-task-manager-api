@@ -25,27 +25,6 @@ def get_tasks():
     tasks = load_tasks()
     return jsonify(tasks)
 
-@app.route("/tasks", methods=["POST"])
-def create_task():
-    tasks = load_tasks()
-    data = request.get_json()
-
-    if not data or "title" not in data:
-        return jsonify({
-            "error": "Title is required"
-        }), 400
-    
-    new_task = {
-        "id": len(tasks) + 1,
-        "title": data["title"],
-        "completed": False
-    }
-
-    tasks.append(new_task)
-    save_tasks(tasks)
-
-    return jsonify(new_task), 201
-
 @app.route("/tasks/<int:task_id>")
 def get_task_by_id(task_id):
     tasks = load_tasks()
@@ -58,10 +37,58 @@ def get_task_by_id(task_id):
         "error": "Task not found"
     }), 404
 
+@app.route("/tasks", methods=["POST"])
+def create_task():
+    data = request.get_json()
+
+    if  data is None:
+        return jsonify({
+            "error": "Request body must be JSON"
+        }), 400
+    
+    if "title" not in data:
+        return jsonify({
+            "error": "Task title is required"
+        }), 400
+    
+    if not data["title"].strip():
+        return jsonify({
+            "error": "Task title cannot be empty"
+        }), 400
+    
+    tasks = load_tasks()
+
+    new_task = {
+        "id": max([task["id"] for task in tasks], default=0) + 1,
+        "title": data["title"],
+        "completed": False
+    }
+
+    tasks.append(new_task)
+    save_tasks(tasks)
+
+    return jsonify(new_task), 201
+
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
-    tasks = load_tasks()
     data = request.get_json()
+
+    if  data is None:
+        return jsonify({
+            "error": "Request body must be JSON"
+        }), 400
+    
+    if "title" in data and not data["title"].strip():
+        return jsonify({
+            "error": "Task title cannot be empty"
+        }), 400
+    
+    if "completed" in data and type(data["completed"]) is not bool:
+        return jsonify({
+            "error": "Completed field must be true or false"
+        }), 400
+
+    tasks = load_tasks()
 
     for task in tasks:
         if task["id"] == task_id:
