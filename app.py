@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 TASKS_FILE = "data/tasks.json"
 
+ALLOWED_PRIORITIES = ["low", "medium", "high"]
+
 def load_tasks():
     with open(TASKS_FILE, "r") as file:
         return json.load(file)
@@ -58,10 +60,18 @@ def create_task():
     
     tasks = load_tasks()
 
+    priority = data.get("priority", "medium")
+
+    if priority not in ALLOWED_PRIORITIES:
+        return jsonify({
+            "error": "Priority must be one of: low, medium, high"
+        }), 400
+
     new_task = {
         "id": max([task["id"] for task in tasks], default=0) + 1,
         "title": data["title"],
-        "completed": False
+        "completed": False,
+        "priority": priority
     }
 
     tasks.append(new_task)
@@ -87,6 +97,11 @@ def update_task(task_id):
         return jsonify({
             "error": "Completed field must be true or false"
         }), 400
+    
+    if "priority" in data and data["priority"] not in ALLOWED_PRIORITIES:
+        return jsonify({
+            "error": "Priority must be one of: low, medium, high"
+        }), 400
 
     tasks = load_tasks()
 
@@ -97,6 +112,9 @@ def update_task(task_id):
             
             if "completed" in data:
                 task["completed"] = data["completed"]
+
+            if "priority" in data:
+                task["priority"] = data["priority"]
 
             save_tasks(tasks)
             return jsonify(data)

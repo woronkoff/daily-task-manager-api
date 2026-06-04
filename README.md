@@ -18,6 +18,7 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Saves tasks in a JSON File
 - Input validation for task creation and updates
 - Clear error messages for invalid requests
+- Task priority support with low, medium, and high levels
 
 ## Skills Practiced
 
@@ -34,6 +35,8 @@ The API allows users to view daily tasks, get a specific task by ID, and create 
 - Reading and writing JSON Files
 - Input validation
 - API error handling
+- Data validation
+- Working with optional JSON fields
 
 ## How to Run
 
@@ -96,15 +99,16 @@ if the task does not exist, the API returns:
 Create a new task
 
 	curl -X POST http://127.0.0.1:5000/tasks \
-	-H "Content-type: application/json" \
-	-d '{"title": "Pratice POST requests"}'
+-H "Content-Type: application/json" \
+-d '{"title": "Practice priority feature", "priority": "high"}'
 
 Example response:
 
 	{
 		"completed": false,
 		"id": 4,
-		"title": "Pratice POST requests"
+		"priority": "high",
+		"title": "Practice priority feature"
 	}
 
 ## Update Task
