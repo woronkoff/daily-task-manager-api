@@ -116,8 +116,8 @@ if the task does not exist, the API returns:
 Create a new task
 
 	curl -X POST http://127.0.0.1:5000/tasks \
--H "Content-Type: application/json" \
--d '{"title": "Practice priority feature", "priority": "high"}'
+	-H "Content-Type: application/json" \
+	-d '{"title": "Practice priority feature", "priority": "high"}'
 
 Example response:
 
