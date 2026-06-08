@@ -5,16 +5,21 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 TASKS_FILE = "data/tasks.json"
-
 ALLOWED_PRIORITIES = ["low", "medium", "high"]
+
+
 
 def load_tasks():
     with open(TASKS_FILE, "r") as file:
         return json.load(file)
 
+
+
 def save_tasks(tasks):
     with open(TASKS_FILE, "w") as file:
         json.dump(tasks, file, indent=4)
+
+
 
 @app.route("/")
 def home():
@@ -22,10 +27,14 @@ def home():
         "message": "Welcome to the Daily Task Manager API"
     })
 
+
+
 @app.route("/tasks")
 def get_tasks():
     tasks = load_tasks()
     return jsonify(tasks)
+
+
 
 @app.route("/tasks/<int:task_id>")
 def get_task_by_id(task_id):
@@ -38,6 +47,8 @@ def get_task_by_id(task_id):
     return jsonify({
         "error": "Task not found"
     }), 404
+
+
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
@@ -57,8 +68,6 @@ def create_task():
         return jsonify({
             "error": "Task title cannot be empty"
         }), 400
-    
-    tasks = load_tasks()
 
     priority = data.get("priority", "medium")
 
@@ -66,6 +75,8 @@ def create_task():
         return jsonify({
             "error": "Priority must be one of: low, medium, high"
         }), 400
+    
+    tasks = load_tasks()
 
     new_task = {
         "id": max([task["id"] for task in tasks], default=0) + 1,
